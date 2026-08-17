@@ -466,6 +466,55 @@ export default function VideoMeetComponent() {
 
                 <div className={styles.meetVideoContainer}>
 
+                    <div className={styles.callArea}>
+
+                        <div
+                            className={styles.conferenceView}
+                            style={{ gridTemplateColumns: `repeat(${getGridColumns(videos.length)}, 1fr)` }}
+                        >
+                            {videos.map((video) => (
+                                <div key={video.socketId}>
+                                    <video
+                                        data-socket={video.socketId}
+                                        ref={ref => {
+                                            if (ref && video.stream) {
+                                                ref.srcObject = video.stream;
+                                            }
+                                        }}
+                                        autoPlay
+                                    >
+                                    </video>
+                                </div>
+                            ))}
+                        </div>
+
+                        <video className={styles.meetUserVideo} ref={localVideoref} autoPlay muted></video>
+
+                        <div className={styles.buttonContainers}>
+                            <IconButton onClick={handleVideo} style={{ color: "white" }}>
+                                {(video === true) ? <VideocamIcon /> : <VideocamOffIcon />}
+                            </IconButton>
+                            <IconButton onClick={handleEndCall} style={{ color: "red" }}>
+                                <CallEndIcon />
+                            </IconButton>
+                            <IconButton onClick={handleAudio} style={{ color: "white" }}>
+                                {audio === true ? <MicIcon /> : <MicOffIcon />}
+                            </IconButton>
+
+                            {screenAvailable === true ?
+                                <IconButton onClick={handleScreen} style={{ color: "white" }}>
+                                    {screen === true ? <ScreenShareIcon /> : <StopScreenShareIcon />}
+                                </IconButton> : <></>}
+
+                            <Badge badgeContent={newMessages} max={999} color='orange'>
+                                <IconButton onClick={() => setModal(!showModal)} style={{ color: "white" }}>
+                                    <ChatIcon />
+                                </IconButton>
+                            </Badge>
+                        </div>
+
+                    </div>
+
                     {showModal ? <div className={styles.chatRoom}>
 
                         <div className={styles.chatContainer}>
@@ -474,8 +523,6 @@ export default function VideoMeetComponent() {
                             <div className={styles.chattingDisplay}>
 
                                 {messages.length !== 0 ? messages.map((item, index) => {
-
-                                    console.log(messages)
                                     return (
                                         <div style={{ marginBottom: "20px" }} key={index}>
                                             <p style={{ fontWeight: "bold" }}>{item.sender}</p>
@@ -493,53 +540,6 @@ export default function VideoMeetComponent() {
 
                         </div>
                     </div> : <></>}
-
-                    <div className={styles.buttonContainers}>
-                        <IconButton onClick={handleVideo} style={{ color: "white" }}>
-                            {(video === true) ? <VideocamIcon /> : <VideocamOffIcon />}
-                        </IconButton>
-                        <IconButton onClick={handleEndCall} style={{ color: "red" }}>
-                            <CallEndIcon />
-                        </IconButton>
-                        <IconButton onClick={handleAudio} style={{ color: "white" }}>
-                            {audio === true ? <MicIcon /> : <MicOffIcon />}
-                        </IconButton>
-
-                        {screenAvailable === true ?
-                            <IconButton onClick={handleScreen} style={{ color: "white" }}>
-                                {screen === true ? <ScreenShareIcon /> : <StopScreenShareIcon />}
-                            </IconButton> : <></>}
-
-                        <Badge badgeContent={newMessages} max={999} color='orange'>
-                            <IconButton onClick={() => setModal(!showModal)} style={{ color: "white" }}>
-                                <ChatIcon />                        </IconButton>
-                        </Badge>
-
-                    </div>
-
-                    <video className={styles.meetUserVideo} ref={localVideoref} autoPlay muted></video>
-
-                    <div
-                        className={styles.conferenceView}
-                        style={{ gridTemplateColumns: `repeat(${getGridColumns(videos.length)}, 1fr)` }}
-                    >
-                        {videos.map((video) => (
-                            <div key={video.socketId}>
-                                <video
-                                    data-socket={video.socketId}
-                                    ref={ref => {
-                                        if (ref && video.stream) {
-                                            ref.srcObject = video.stream;
-                                        }
-                                    }}
-                                    autoPlay
-                                >
-                                </video>
-                            </div>
-
-                        ))}
-
-                    </div>
 
                 </div>
 
