@@ -1,4 +1,3 @@
-
 .meetVideoContainer {
     position: relative;
     height: 100vh;
@@ -14,7 +13,8 @@
     aspect-ratio: 16 / 9;
     width: auto;
     border-radius: 16px;
-    object-fit: cover;
+    object-fit: contain;
+    background: #000;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
     border: 2px solid rgba(255, 255, 255, 0.15);
     z-index: 5;
@@ -35,28 +35,27 @@
 
 .conferenceView {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 12px;
     padding: 16px;
     height: calc(100vh - 100px);
-    align-content: center;
+    width: 100%;
     box-sizing: border-box;
-    overflow-y: auto;
 }
 
 .conferenceView > div {
     position: relative;
     width: 100%;
-    aspect-ratio: 16 / 9;
+    height: 100%;
     border-radius: 12px;
     overflow: hidden;
-    background: #0e1626;
+    background: #000;
 }
 
 .conferenceView video {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    background: #000;
     border-radius: 12px;
     display: block;
 }
@@ -92,7 +91,6 @@
 
 @media (max-width: 768px) {
     .conferenceView {
-        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
         gap: 8px;
         padding: 8px;
     }
